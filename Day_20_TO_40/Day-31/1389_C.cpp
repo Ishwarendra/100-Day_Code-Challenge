@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+#define FIO ios_base::sync_with_stdio(false), cin.tie(NULL), cout.tie(0);
+#define all(a) ((a).begin()), ((a).end())
+#define printarr(v, start, end)for (int _i = (start); _i < (end); _i++) cout << (v[_i]) << " ";cout << "\n";
+#define log(v) for(auto __i = ((v).begin()); __i != ((v).end()); __i++) cout << *(__i) << " "; cout << "\n";
+#define print(args...){string _s = #args; replace(_s.begin(), _s.end(), ',', ' '); stringstream _ss(_s);istream_iterator<string> _it(_ss);err(_it, args);cout<<"\n";};
+
+using vi = vector<int>;
+using vll = vector<long long>;
+using ll = long long;
+using ld = long double;
+using pii = pair<int, int>;
+using pll = pair<long long, long long>;
+
+void err(istream_iterator<string> it){};
+template <typename T, typename... Args>
+void err(istream_iterator<string> it, T a, Args... args)
+{
+    cout << a << " ";
+    err(++it, args...);
+};
+
+// only possible option is wen strings have only two distinct char 
+// check for same char at start and end in case odd length good string is formed
+// 10101 not valid 1010 valid 
+
+int len(string &s, int a, int b)
+{
+    int n = s.length(), ans = 0;
+    string dummy;
+
+    bool amove = true;
+
+    for(int i = 0; i < n; i++)
+    {
+        if (amove and s[i] - '0' == a) // Found a now skip a until b is found
+            amove = false, ans++; 
+
+        else if (!amove and s[i] - '0' == b) // Found b now skip b until a is found 
+            amove = true, ans++;
+    }   
+
+    if (ans % 2 == 1 and a != b)
+        ans--;
+        
+    return n - ans;
+}
+
+void solve()
+{
+    string s; cin >> s;
+    int n = s.length();
+
+    int ans = n - 2;
+
+    for(int i = 0; i < 10; i++)
+    {
+        for(int j = 0; j < 10; j++)
+        {
+            ans = min(ans, len(s, i, j)); // len(s, i, j) contains only i and j char
+        }
+    }
+
+    cout << ans << "\n";
+}
+
+int main()
+{
+    FIO;
+    int t = 1;
+    cin >> t;
+    while(t--)
+        solve();
+}
