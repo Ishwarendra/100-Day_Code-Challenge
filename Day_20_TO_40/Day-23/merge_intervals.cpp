@@ -4,8 +4,8 @@ using namespace std;
 using vi = vector<int>;
 using vvi = vector<vector<int>>;
 
-// Solution - 1 simply checking if start of interval 2 lie in prev interval
-class Solution1
+// simply checking if start of interval 2 lie in prev interval
+class Solution
 {
 public:
     bool between(int x, int l, int u)
@@ -41,16 +41,6 @@ public:
         }
         ans.push_back({cur_start, cur_end});
         return ans;
-    }
-};
-
-// Solution-2 Here, we find union of two intervals and then return merged vector (if possible)
-class Solution
-{
-public:
-    vector<vector<int>> merge(vector<vector<int>> &intervals)
-    {
-        
     }
 };
 
