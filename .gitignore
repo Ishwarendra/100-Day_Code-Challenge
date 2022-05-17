@@ -3,3 +3,6 @@
 
 # Executable File
 **/*.exe
+
+# TestCaseFile
+**/*__tests
