@@ -6,3 +6,6 @@
 
 # TestCaseFile
 **/*__tests
+
+# Temporary Files made for testing ignore if i forgor 💀
+**/del.cpp
