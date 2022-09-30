@@ -31,13 +31,22 @@ void solve()
         std::cout << "YES\n";
     else
     {
-        for (int i = 1; i < n; i++)
+        int cnt = 0;
+
+        for (int i = 0; i < n;)
         {
-            for (int j = i + 2; j < n; j++)
-            {
-                
-            }
+            int j = i;
+            int xr = 0;
+            while (j < n and xr != prefxor)
+                xr ^= a[j++];
+
+            if (xr == prefxor)
+                cnt++;
+
+            i = j;
         }
+
+        std::cout << (cnt >= 3 ? "YES\n" : "NO\n");
     }
 }
 

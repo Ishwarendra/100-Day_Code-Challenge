@@ -26,10 +26,7 @@ void solve()
         if (i == n)
         {
             if (std::is_sorted(std::begin(a), std::end(a)))
-            {
-                print(a)
                 ans = std::min(ans, cur_ans);
-            }
             return;
         }
 
@@ -45,7 +42,7 @@ void solve()
     };
 
     f(0, x, 0);
-    std::cout << (ans == inf : -1 : ans) << "\n";
+    std::cout << (ans == inf ? -1 : ans) << "\n";
 }
 
 int main()
