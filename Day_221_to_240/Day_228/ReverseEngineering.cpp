@@ -1,7 +1,7 @@
 #include "bits/stdc++.h"
 
 #ifdef LOCAL
-#include "F:\CPP\Debug\debug.h" 
+#include "F:\CPP\Debug\debug.h"
 #else
 #define print(...) 1;
 #endif
@@ -15,27 +15,28 @@ void solve()
 
     std::vector<std::string> a(m);
     std::vector<int> resp(m);
+
     for (int i = 0; i < m; i++)
         std::cin >> a[i] >> resp[i];
 
-    auto separable = [&](int j, std::vector<std::string> &b, std::vector<int> &r)
+    auto check = [&](int j)
     {
         int zero = -1, one = -1;
         int no = 0;
-        for (int i = 0; i < std::size(b); i++)
+        for (int i = 0; i < std::size(a); i++)
         {
-            if (b[i][j] == '0')
+            if (a[i][j] == '0')
             {
                 if (zero == -1)
-                    zero = r[i];
-                else if (r[i] != zero)
+                    zero = resp[i];
+                else if (zero != resp[i])
                     no |= 1;
             }
             else
             {
                 if (one == -1)
-                    one = r[i];
-                else if (r[i] != one)
+                    one = resp[i];
+                else if (one != resp[i])
                     no |= 2;
             }
         }
@@ -44,50 +45,55 @@ void solve()
     };
 
     std::vector<int> vis(n);
-    auto b = a; 
-    auto r = resp;
-
     int rem = n;
+    std::set<int> unmark;
     while (rem > 0)
     {
         for (int i = 0; i < n; i++)
         {
             if (vis[i])
                 continue;
-
-            int check = separable(i, b, r);
+            
             vis[i] = 1;
             rem--;
 
-            if (check == 3)    
+            int no = check(i);
+            if (no == 3)
             {
-                std::cout << "LIE\n";
-                return;
+                unmark.emplace(i);
+                continue;
             }
-            else if (check == 0)
+            else if (no == 0)
             {
                 std::cout << "OK\n";
                 return;
             }
-            else 
+            else
             {
-                char ch = (check == 1 ? '0' : '1');
-                std::vector<std::string> c;
-                std::vector<int> d;
+                char ch = (no == 1 ? '1' : '0');
+                std::vector<std::string> na;
+                std::vector<int> nresp;
 
-                for (int j = 0; j < std::size(b); j++)
+                for (int j = 0; j < std::size(a); j++)
                 {
-                    if (b[j][i] == ch)
-                        c.emplace_back(b[j]), d.emplace_back(resp[j]);
+                    if (a[j][i] == ch)
+                        na.emplace_back(a[j]), nresp.emplace_back(resp[j]);
                 }
 
-                std::swap(b, c);
-                std::swap(d, r);
+                std::swap(a, na);
+                std::swap(resp, nresp);
+
+                while (!unmark.empty())
+                {
+                    vis[*std::begin(unmark)] = 0;
+                    unmark.erase(std::begin(unmark));
+                    rem++;
+                }
             }
         }
     }
 
-    std::cout << (b.empty() ? "OK\n" : "LIE\n");
+    std::cout << "LIE\n";
 }
 
 int main()
@@ -97,9 +103,9 @@ int main()
 
     int t = 1;
     std::cin >> t;
-    
+
     while (t--)
         solve();
-    
+
     return 0;
 }
