@@ -1,7 +1,7 @@
 #include "bits/stdc++.h"
 
 #ifdef LOCAL
-#include "F:\CPP\Debug\debug.h" 
+#include "F:\CPP\Debug\debug.h"
 #else
 #define print(...) 1;
 #endif
@@ -10,7 +10,7 @@ using i64 = long long;
 
 class Solution {
 public:
-    int snakesAndLadders(std::vector<std::vector<int>>& board) 
+    int snakesAndLadders(std::vector<std::vector<int>>& board)
     {
         int n = std::size(board);
         std::vector<int> a(n * n);
@@ -25,40 +25,44 @@ public:
                 a[i * n + j] = board[i][j];
         }
 
-        std::vector<int> vis(n * n);
-        std::queue<std::array<int, 2>> q;
-        q.push({0, 0});
-        vis[0] = 1;
+        for (auto i : board)
+        {
+            for (auto j : i)
+                std::cout << j << ' ';
+            std::cout << '\n';
+        }
+
+        std::vector<int> vis(n * n, -1);
+        std::queue<int> q;
+        q.push(0);
+        vis[0] = 0;
 
         while (!q.empty())
         {
-            auto [x, d] = q.front();
+            auto x = q.front();
             q.pop();
 
-            if (x == n * n - 1)
-                return d;
+            int d = vis[x];
 
             for (int i = 1; i <= 6 and x + i < n * n; i++)
             {
-                if (vis[x + i])
-                    continue;
-
-                vis[x + i] = 1;
-                if (a[x + i] == -1)
-                    q.push({x + i, d + 1});
+                if (a[x + i] == -1 and vis[x + i] == -1)
+                {
+                    vis[x + i] = d + 1;
+                    q.push(x + i);
+                }
                 else
                 {
-                    if (!vis[a[x + i] - 1])
+                    if (vis[a[x + i] - 1] == -1)
                     {
-                        vis[a[x + i] - 1] = 1;
-                        q.push({a[x + i] - 1, d + 1});
+                        vis[a[x + i] - 1] = d + 1;
+                        q.push(a[x + i] - 1);
                     }
                 }
             }
         }
-
-        assert(false);
-        return -1;
+        
+        return vis.back();
     }
 };
 
@@ -66,7 +70,7 @@ int main()
 {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
-    
+
     // int n;
     // std::cin >> n;
 
@@ -76,11 +80,12 @@ int main()
     //         std::cin >> a[i][j];
 
     std::vector<std::vector<int>> a {
-        {-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1},{-1,-1,-1,-1,-1,-1},{-1,35,-1,-1,13,-1},{-1,-1,-1,-1,-1,-1},{-1,15,-1,-1,-1,-1}
+        { -1, -1, -1, 46, 47, -1, -1, -1}, {51, -1, -1, 63, -1, 31, 21, -1}, { -1, -1, 26, -1, -1, 38, -1, -1}, { -1, -1, 11, -1, 14, 23, 56, 57}, {11, -1, -1, -1, 49, 36, -1, 48}, { -1, -1, -1, 33, 56, -1, 57, 21}, { -1, -1, -1, -1, -1, -1, 2, -1}, { -1, -1, -1, 8, 3, -1, 6, 56}
     };
+
 
     Solution sol;
     std::cout << sol.snakesAndLadders(a);
-    
+
     return 0;
 }
