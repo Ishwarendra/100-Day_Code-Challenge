@@ -44,7 +44,7 @@ public:
                     vis[x + i] = d + 1;
                     q.push(x + i);
                 }
-                else
+                else if (a[x + i] != -1)
                 {
                     if (vis[a[x + i] - 1] == -1)
                     {
