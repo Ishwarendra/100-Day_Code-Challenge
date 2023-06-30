@@ -22,10 +22,7 @@ public:
             return -1;
 
         auto [_key, value] = *location[key];
-        cache.erase(location[key]);
-        location.erase(key);
-        cache.push_back({key, value});
-        location[key] = std::prev(std::end(cache));
+        put(key, value);
         return value;
     }
 
